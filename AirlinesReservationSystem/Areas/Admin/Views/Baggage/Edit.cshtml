@@ -1,0 +1,97 @@
+﻿@model AirlinesReservationSystem.Models.Baggage
+
+@{
+    ViewBag.Title = "Cập nhập";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="container mt-2">
+    <div class="card">
+        <div class="card-header">
+            <b style="font-size:1.4rem">@ViewBag.Title</b>
+            <a href="@Url.Action("Index")" class="btn btn-secondary pull-right">< Quay lại</a>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                      @Html.HiddenFor(model => model.id)
+                    @*id*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.user_id, "user_id", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("user_id", null, htmlAttributes: new { @class = "form-control", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.user_id, "", new { @class = "text-danger" })<br />
+                            <input id="browserInput" class="form-control" placeholder="Searh name or phone number..." value="">
+                        </div>
+                    </div>
+
+                    @*carryon_bag*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.carryon_bag, "carryon_bag", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBox("carryon_bag", null, htmlAttributes: new { @class = "form-control", @Value = "7", @type = "number", @Readonly = "readonly", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.carryon_bag, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @*signed_luggage*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.signed_luggage, htmlAttributes: new { @class = "control-label col-md-2", @required = "required" })
+                        <div class="col-md-10">
+                            @Html.TextBox("signed_luggage", null, htmlAttributes: new { @class = "form-control", @type = "number", @min = "0", @max = "15", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.signed_luggage, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @*code*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.code, "code", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.code, new { htmlAttributes = new { @class = "form-control" , @required = "required"} })
+                            @Html.ValidationMessageFor(model => model.code, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+      document.getElementById("browserInput").addEventListener("input", function () {
+         $.ajax({
+            url: '@Url.Action("GetUserOptions", "TicketManagers")',
+             type: 'GET',
+             data: {
+                 searchValue: this.value,
+             },
+             success: function (response) {
+                 var selectedValue = $('#user_id').val();
+                // Xóa các tùy chọn cũ của thẻ select
+                 $('#user_id option').not(':selected').remove();
+
+                // Thêm tùy chọn mới dựa trên dữ liệu nhận được
+                 $.each(response, function (index, user) {
+                     if (user.id != selectedValue) {
+                         $('#user_id').append(
+                             $('<option></option>').val(user.id).text(user.name + " - " + user.phone_number )
+                         );
+                     }
+                });
+            },
+            error: function () {
+                alert("Có lỗi xảy ra khi tải dữ liệu.");
+            }
+        });
+     });
+
+</script>
+
+
