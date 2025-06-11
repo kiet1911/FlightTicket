@@ -28,6 +28,9 @@ namespace AirlinesReservationSystem.Models
         private static string GetAccessToken()
         {
             // getting accesstocken from paypal  
+            Console.WriteLine(ClientId);
+            Console.WriteLine(ClientSecret);
+
             string accessToken = new OAuthTokenCredential(ClientId, ClientSecret, GetConfig()).GetAccessToken();
             return accessToken;
         }

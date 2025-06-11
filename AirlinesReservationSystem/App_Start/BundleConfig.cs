@@ -27,6 +27,7 @@ namespace AirlinesReservationSystem
                       "~/Content/bootstrap.min.css",
                       "~/Content/site.css",
                       "~/Content/font-awesome-4.7.0/css/font-awesome.min.css"));
+
             bundles.Add(new StyleBundle("~/Content/login").Include(
                       "~/Content/login.css"));
 
