@@ -469,7 +469,7 @@ namespace AirlinesReservationSystem.Controllers
             Session["amountBaggage"] = amountBaggages;
             Session["lstBaggages"] = lstBaggages;
             AlertHelper.setToast("success", "Bạn đang đến thanh toán.");
-            return Content(JsonConvert.SerializeObject(response));
+            return/* Json(response);*/ Content(JsonConvert.SerializeObject(response));
         }
 
 

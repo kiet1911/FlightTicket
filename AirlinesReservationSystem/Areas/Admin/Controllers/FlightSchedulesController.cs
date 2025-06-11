@@ -28,8 +28,14 @@ namespace AirlinesReservationSystem.Areas.Admin.Controllers
         // GET: Admin/FlightSchedules
         public ActionResult Index()
         {
-            var flightSchedules = db.FlightSchedules.Include(f => f.AirPort).Include(f => f.AirPort1).Include(f => f.Plane).OrderByDescending(f => f.id);
-            return View(flightSchedules.ToList());
+            var flightSchedules = new List<FlightSchedule>();
+            try { var querySchedules = db.FlightSchedules.Include(f => f.AirPort).Include(f => f.AirPort1).Include(f => f.Plane).OrderByDescending(f => f.id); 
+                flightSchedules = querySchedules.ToList();
+               
+            } 
+            catch (Exception ex) { AlertHelper.setAlert("Error", "lấy dữ liệu chuyến bay thất bại."); }
+           
+            return View(flightSchedules);
         }
         //Hàm này trả về thông tin chi tiết của một lịch trình chuyến bay dựa trên ID của lịch trình. Nếu không tìm thấy lịch trình chuyến bay với ID được cung cấp, nó trả về mã lỗi 404 (Not Found).
         // GET: Admin/FlightSchedules/Details/5
