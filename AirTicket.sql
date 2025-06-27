@@ -2,26 +2,7 @@ use [SkyWaveAirlinesSystem]
 GO
 /****** Object:  Database [SkyWaveAirlinesSystem]    Script Date: 11/7/2024 11:04:58 PM ******/
 CREATE DATABASE [SkyWaveAirlinesSystem]
-CONTAINMENT = NONE
-ON PRIMARY 
-(
-    NAME = N'SkyWaveAirlinesSystem', 
-    FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\SkyWaveAirlinesSystem.mdf', 
-    SIZE = 8192KB, 
-    MAXSIZE = UNLIMITED, 
-    FILEGROWTH = 65536KB
-)
-LOG ON 
-(
-    NAME = N'SkyWaveAirlinesSystem_log', 
-    FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\SkyWaveAirlinesSystem_log.ldf', 
-    SIZE = 8192KB, 
-    MAXSIZE = 2048GB, 
-    FILEGROWTH = 65536KB
-)
-WITH CATALOG_COLLATION = DATABASE_DEFAULT;
 
-GO
 ALTER DATABASE [SkyWaveAirlinesSystem] SET COMPATIBILITY_LEVEL = 150
 GO
 IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
