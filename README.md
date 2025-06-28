@@ -1,3 +1,16 @@
+<h1 style="font-weight:bold">Project website Airline ticket managment</h1>
+</hr> 
+</br>
+
+
+
+
+
+
+
+
+
+
 Project Quản lý bán vé máy bay
 <H6>Dự án mà</H6>
 <p>Client : mua vé đặt trước chỗ cho mình , thanh toán vé , xem chi tiết vé (chuyến bay) , tìm kiếm chuyén bay </p>
@@ -7,6 +20,8 @@ Quản lý task ở mục Project
 Mô tả nghiệp vụ : https://docs.google.com/document/d/1Vzi-AgVL2xmuJxdYjZSHv5ac3B-9UvlynWpoiEDvkIw/edit?usp=sharing
 
 File excel : https://docs.google.com/spreadsheets/d/1q36mYsDpg0KSqa1xVAboEPSbTSSZeBuuDQRc_nyQF2w/edit?usp=sharing
+
+File 
 
 SPRINT 1 
 
