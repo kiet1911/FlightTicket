@@ -50,6 +50,7 @@
 <h1 style="font-weight:bold">Setup MVC Project :</h1>
 </hr>
 <span>Please change the APIs link by your API Setup</span>
+<span>Please change the APIs key Paypal by your API in file WebConfig</span>
 <h1 style="font-weight:bold">Some Interface features :</h1>
 </hr>
 
