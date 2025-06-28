@@ -47,6 +47,9 @@
 <h1 style="font-weight:bold">Setup SQL Server :</h1>
 </hr>
 <a href="https://drive.google.com/file/d/1zdXCdiVZdRSOM_yHML6RL4xDAPXVpGsj/view?usp=drive_link">Link to SQL File</a>
+<h1 style="font-weight:bold">Setup MVC Project :</h1>
+</hr>
+<span>Please change the APIs link by your API Setup</span>
 <h1 style="font-weight:bold">Some Interface features :</h1>
 </hr>
 
