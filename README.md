@@ -1,20 +1,43 @@
 <h1 style="font-weight:bold">Project website Airline ticket managment</h1>
 </hr> 
-</br>
-
-
-
-
-
-
-
-
-
-
-Project Quản lý bán vé máy bay
-<H6>Dự án mà</H6>
-<p>Client : mua vé đặt trước chỗ cho mình , thanh toán vé , xem chi tiết vé (chuyến bay) , tìm kiếm chuyén bay </p>
-<p>Manger : quản lý(thêm,sửa-option,xóa-option,tìm kiếm) các hạng mục liên quan đến chuyến bay , thông tin vé bay(khách hàng) , thông tin khách hàng , thông tin nhân viên , thanh toán , thông tin của chuyến bay  </p>
+<h3>Team size : 1 </h3> 
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>ID Student</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+     <tr>
+      <td>Nguyến Tuán Kiệt</td>
+      <td>20DH110204</td>
+      <td>FullStack</td>
+    </tr>
+  </tbody>
+</table>
+<h1 style="font-weight:bold">Project Introduce</h1>
+</hr>
+<div><span style="font-weight:bold">Desciption: </span><span>Developed a web-based airline ticket booking system featuring real-time seat selection, user account management, transaction history tracking, and flight schedule search and more features</span></div>
+<h1 style="font-weight:bold">Technologies Used</h1>
+</hr>
+<ul>
+  <li>Backend : .Net MVC (Framework 4.7.8)</li>
+  <li>FrontEnd : Blazor , HTML , CSS , JavaScript , jQuery/Ajax , Boostrap</li>
+  <li>Database : Sql Server</li>
+  <li>APIs : .Net APIs (Net 5) using Swagger UI</li>
+</ul>
+<h1 style="font-weight:bold">Some Main Features or the website</h1>
+</hr>
+<ul>
+  <li>Admin Control: Manage flights, bookings, and others </li>
+  <li>User: Order tickets, pay tickets, login/register and others</li>
+  <li>Authentication: Implemented secure login using JWT (JSON Web Token) with role-based access control to restrict feature usage based on user permissions</li>
+  <li>Seat booking: Real-time booking with Ajax/jQuery, Schedule updates  with Hangfire(C# Nuget)</li>
+  <li>Transaction History: View, paginate, and manage transactions </li>
+  <li>Searching Flight schedule: Indexing(SQL server) to optimize search speed</li>
+</ul>
 
 Quản lý task ở mục Project
 Mô tả nghiệp vụ : https://docs.google.com/document/d/1Vzi-AgVL2xmuJxdYjZSHv5ac3B-9UvlynWpoiEDvkIw/edit?usp=sharing
