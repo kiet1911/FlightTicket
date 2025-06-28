@@ -44,3 +44,11 @@
 <h1 style="font-weight:bold">Manager Task :</h1>
 </hr>
 <a href="https://docs.google.com/spreadsheets/d/1q36mYsDpg0KSqa1xVAboEPSbTSSZeBuuDQRc_nyQF2w/edit?usp=sharing">Link to Excel File</a>
+<h1 style="font-weight:bold">Setup SQL Server :</h1>
+</hr>
+<a href="https://drive.google.com/file/d/1zdXCdiVZdRSOM_yHML6RL4xDAPXVpGsj/view?usp=drive_link">Link to SQL File</a>
+<h1 style="font-weight:bold">Some Interface features :</h1>
+</hr>
+
+
+
