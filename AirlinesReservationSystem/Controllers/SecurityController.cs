@@ -59,38 +59,56 @@ namespace AirlinesReservationSystem.Controllers
 			Dictionary<string, string> response = new Dictionary<string, string>();
 			response["status"] = "200";
 			response["message"] = "";
-			try
+			User user = Conection.getDb().Users.Where(s => s.email == email).FirstOrDefault();
+			if (user == null || user.password != password)
 			{
-				using (var client = new HttpClient())
-				{
-					client.BaseAddress = new Uri(apiUrl);
-
-					var responses = await client.GetAsync($"Login/GetUser/{email},{password}");
-
-					if (responses.IsSuccessStatusCode)
-					{
-						var content = await responses.Content.ReadAsStringAsync();
-						var user = JsonConvert.DeserializeObject<User>(content);
-						AuthHelper.setIdentity(user);
-						AlertHelper.setToast("success", "Đăng nhập thành công.");
-						//return View("UserProfile", user);
-					}
-					else
-					{
-						response["status"] = "400";
-						response["message"] = "Thông tin tài khoản không hợp lệ.";
-						//ViewBag.ErrorMessage = "Invalid login credentials.";
-
-					}
-				}
-				return Content(JsonConvert.SerializeObject(response));
+				response["status"] = "400";
+				response["message"] = "Thông tin tài khoản không hợp lệ.";
 			}
-			catch (Exception ex)
+			else
 			{
-				response["status"] = "404";
-				response["message"] = "Lỗi mất kết nối với dữ liệu.";
-				return Content(JsonConvert.SerializeObject(response));
+
+				AuthHelper.setIdentity(user);
+				AlertHelper.setToast("success", "Đăng nhập thành công.");
 			}
+			return Content(JsonConvert.SerializeObject(response));
+
+
+			//Dictionary<string, string> response = new Dictionary<string, string>();
+			//response["status"] = "200";
+			//response["message"] = "";
+			//try
+			//{
+			//	using (var client = new HttpClient())
+			//	{
+			//		client.BaseAddress = new Uri(apiUrl);
+
+			//		var responses = await client.GetAsync($"Login/GetUser/{email},{password}");
+
+			//		if (responses.IsSuccessStatusCode)
+			//		{
+			//			var content = await responses.Content.ReadAsStringAsync();
+			//			var user = JsonConvert.DeserializeObject<User>(content);
+			//			AuthHelper.setIdentity(user);
+			//			AlertHelper.setToast("success", "Đăng nhập thành công.");
+			//			//return View("UserProfile", user);
+			//		}
+			//		else
+			//		{
+			//			response["status"] = "400";
+			//			response["message"] = "Thông tin tài khoản không hợp lệ.";
+			//			//ViewBag.ErrorMessage = "Invalid login credentials.";
+
+			//		}
+			//	}
+			//	return Content(JsonConvert.SerializeObject(response));
+			//}
+			//catch (Exception ex)
+			//{
+			//	response["status"] = "404";
+			//	response["message"] = "Lỗi mất kết nối với dữ liệu.";
+			//	return Content(JsonConvert.SerializeObject(response));
+			//}
 
 
 		}

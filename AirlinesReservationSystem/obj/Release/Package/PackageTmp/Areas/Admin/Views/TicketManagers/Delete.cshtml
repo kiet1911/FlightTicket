@@ -1,0 +1,70 @@
+﻿@model AirlinesReservationSystem.Models.TicketManager
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="modal-body container mt-3">
+    <div class="card">
+        <div class="card-header">
+            <h4>
+               Xóa vé
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label>Mã Code chuyến bay:</label>
+                <input type="text" class="form-control" value=" @Html.DisplayFor(model => model.flight_schedules_id)" readonly>
+            </div>
+            <div class="form-group">
+                <label>Mã khách hàng:</label>
+                <input type="text" class="form-control" value="@Html.DisplayFor(model => model.user_id)" readonly>
+            </div>
+            <div class="form-group">
+                <label>Mã trạng thái: <span></span></label>
+                @{
+                    if (Model.status == 0)
+                    {
+                        <input type="text" class="form-control" value="Pay" readonly>
+                    }
+                    else
+                    {
+                        <input type="text" class="form-control" value="Cancel" readonly>
+                    }
+                }
+
+            </div>
+            <div class="form-group">
+                <label>Mã vé:</label>
+                <input type="text" class="form-control" value="@Html.DisplayFor(model => model.code)" readonly>
+            </div>
+            <div class="form-group">
+                <label>Vị trí ngồi:</label>
+                <input type="text" class="form-control" value="@Html.DisplayFor(model => model.seat_location)" readonly>
+            </div>
+            <div class="form-group">
+                <label>Mã thanh toán:</label>
+                @{
+                    if (Model.pay_id == null)
+                    {
+                        <input type="text" class="form-control" value="Null" readonly>
+                    }
+                    else
+                    {
+                        <input type="text" class="form-control" value="@Html.DisplayFor(model => model.pay_id)" readonly>
+                    }
+                }
+
+            </div>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-default" /> |
+                    @Html.ActionLink("Back to List", "Index")
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -319,7 +319,6 @@
     <Content Include="App_Data\2093_flight\img\fitness-service.jpg" />
     <Content Include="App_Data\2093_flight\img\heading-bg.jpg" />
     <Content Include="App_Data\2093_flight\img\logo-i.png" />
-    <Content Include="App_Data\2093_flight\img\logo.png" />
     <Content Include="App_Data\2093_flight\img\massage-service.jpg" />
     <Content Include="App_Data\2093_flight\img\place-01.jpg" />
     <Content Include="App_Data\2093_flight\img\place-02.jpg" />
@@ -520,6 +519,8 @@
     <Content Include="Areas\Admin\Views\AirPort\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\AirPort\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\ChartFlight\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\kuphe1980-001-site1 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\kuphe1980-001-site1 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />

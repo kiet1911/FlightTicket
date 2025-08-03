@@ -1,0 +1,41 @@
+﻿@model AirlinesReservationSystem.Models.Payments
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="modal-body container mt-3">
+    <div class="card">
+        <div class="card-header">
+            <h4>
+                Chi tiết thanh toán
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label>ID:</label>
+                <input type="text" class="form-control" value=" @Html.DisplayFor(model => model.id)" readonly>
+            </div>
+            <div class="form-group">
+                <label>Email khách hàng:</label>
+                <input type="text" class="form-control" value="@Html.DisplayFor(model => model.email_Payment)" readonly>
+            </div>
+            <div class="form-group">
+                <label>Tên:</label>
+                <input type="text" class="form-control" value="@Html.DisplayFor(model => model.name_Payment)" readonly>
+            </div>
+            <div class="form-group">
+                <label>Mã giao dịch:</label>
+                <input type="text" class="form-control" value="@Html.DisplayFor(model => model.PayerID_Payment)" readonly>
+            </div>
+            <div class="form-group">
+                <label>Mã khách hàng:</label>
+                <input type="text" class="form-control" value=" @Html.DisplayFor(model => model.UserID)" readonly>
+            </div>
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+        </div>
+    </div>
+</div>

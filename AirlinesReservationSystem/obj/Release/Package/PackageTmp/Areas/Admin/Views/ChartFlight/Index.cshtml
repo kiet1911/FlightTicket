@@ -1,0 +1,306 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<div class="container-fluid mt-2" style="display:flex ; flex-direction:row ; justify-content:center ; gap:20px ;flex-wrap:wrap">
+    <div style="flex:1">
+        <h2>Thống Kê Số Lượng Vé Máy Bay Được Bán</h2>
+        @*canvas*@
+        <div id='' style="border: 1px solid black;width:100%;height:55%">
+            <canvas id="chart" style="width: 100%;height:100%"></canvas>
+        </div>
+
+        <br />
+        <div class="container mt-2">
+            <div class="card">
+                <div class="card-header">
+                    <b style="font-size:1.4rem ; text-align:center">Bảng điều chỉnh</b>
+                </div>
+                <div class="card-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label> Chọn năm : </label>
+                            <div class="col-md-10">
+                                <input type="number" id="yearPicker" value="2024" min="2000" max="2099" placeholder="Chọn năm" onchange="handleYearChange(event)" />
+                            </div>
+                        </div>
+                        
+                    </div>
+                    </div>
+                </div>
+        </div>
+
+    </div>
+    <div style="flex:1">
+        <h2>Thống Kê Doanh Thu Bán Vé Máy Bay</h2>
+        @*canvas*@
+       <div id='' style="border: 1px solid black;width:100%;height:55%">
+            <canvas id="revenueChart"style="width: 100%;height:100%"></canvas>
+        </div>
+
+        <br />
+        <div class="container mt-2">
+            <div class="card">
+                <div class="card-header">
+                    <b style="font-size:1.4rem ; text-align:center">Bảng điều chỉnh</b>
+                </div>
+                <div class="card-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label> Chọn năm : </label>
+                            <div class="col-md-10">
+                                <input type="number" id="yearPicker2" value="2024" min="2000" max="2099" placeholder="Chọn năm" onchange="handleYearChangePrice(event)" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js'></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+   
+    $(document).ready(function () {
+        loadfirstGraph();
+    });
+
+    function handleYearChange(event) {
+        const years = event.target.value;
+
+         $.ajax({
+            url: '@Url.Action("GetTickeBuyedByYear", "ChartFlight")',
+             type: 'GET',
+             data: {
+                 year: years,
+             },
+             success: function (response) {
+                 
+                 loadGraph(response);
+            },
+            error: function () {
+                alert("Có lỗi xảy ra khi tải dữ liệu.");
+            }
+        });
+
+      
+    }
+
+
+    function loadGraph(a) {
+        //X Axis data points.
+        let xAxis = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
+        //Y Axis data points.
+        let yAxis = [
+           a
+        ];
+        const chartSettings = {
+            type: "line",
+            data: {
+                labels: xAxis,
+                datasets: [{
+                    label: "Số vé bán được trong tháng",
+                    data: yAxis[0],
+                    borderColor: "rgba(255,99,132,1)",
+                    fill: false
+                }]
+            },
+            options: {
+                legend: {
+                    position: 'bottom',
+                    display: true
+                },
+                title: {
+                    display: true,
+                    text: 'Line Chart Thống Kê Số Lượng Vé Máy Bay Được Bán'
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        }
+                    }]
+                }
+            }
+        }
+
+        //Get canvas.
+        let canvas = document.getElementById("chart");
+
+        //Make a new chart.
+        let chart = new Chart(canvas, chartSettings);
+    }
+    function loadfirstGraph() {
+        //X Axis data points.
+        let xAxis = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
+        let dataAxis = [];
+        //Y Axis data points.
+        $.ajax({
+        url: '@Url.Action("GetTickeBuyedByYear", "ChartFlight")',
+        type: 'GET',
+        data: {
+            year: "2024", // Dữ liệu gửi lên server
+        },
+        success: function (response) {
+            console.log(response); // Kiểm tra response trên console
+            yAxis = response; // Gắn response vào biến yAxis
+            loadGraph(yAxis); // Gọi hàm loadGraph với dữ liệu từ response
+        },
+        error: function () {
+            alert("Có lỗi xảy ra khi tải dữ liệu.");
+        }
+        });
+
+        let yAxis = [
+            dataAxis
+        ];
+
+        const chartSettings = {
+            type: "line",
+            data: {
+                labels: xAxis,
+                datasets: [{
+                    label: "Số vé bán được trong tháng",
+                    data: yAxis[0],
+                    borderColor: "rgba(255,99,132,1)",
+                    fill: false
+                }]
+            },
+            options: {
+                legend: {
+                    position: 'bottom',
+                    display: true
+                },
+                title: {
+                    display: true,
+                    text: 'Line Chart Thống Kê Số Lượng Vé Máy Bay Được Bán'
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        }
+                    }]
+                }
+            }
+        }
+
+        //Get canvas.
+        let canvas = document.getElementById("chart");
+
+        //Make a new chart.
+        let chart = new Chart(canvas, chartSettings);
+    }
+
+
+</script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '@Url.Action("TotalSalaryByYear", "ChartFlight")',
+             type: 'GET',
+             data: {
+                 years: "2024",
+             },
+             success: function (response) {
+                 loadGraphSalary(response);
+            },
+            error: function () {
+                alert("Có lỗi xảy ra khi tải dữ liệu.");
+            }
+        });
+    });
+
+    function handleYearChangePrice(event) {
+        const years = event.target.value;
+
+         $.ajax({
+            url: '@Url.Action("TotalSalaryByYear", "ChartFlight")',
+             type: 'GET',
+             data: {
+                 years: years,
+             },
+             success: function (response) {
+                 console.log(response);
+
+                 var changes = response;
+                 var formatter = new Intl.NumberFormat('vi-VN', {
+                     style: 'currency',
+                     currency: 'VND',
+                 });
+                 changes = changes.map(function (value) {
+                     return  formatter.format(value) // Định dạng từng giá trị
+                 });
+
+                 console.log(changes);
+                 console.log(response);
+
+                 loadGraphSalary(response);
+            },
+            error: function () {
+                alert("Có lỗi xảy ra khi tải dữ liệu.");
+            }
+        });
+
+        console.log("Năm được chọn:", years);
+    }
+
+
+    function loadGraphSalary(a) {
+        const labels = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Doanh thu (VNĐ)',
+                data: a, // Dữ liệu doanh thu tương ứng với các tháng
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+        const config = {
+            type: 'line', // Loại biểu đồ (có thể là 'bar', 'line', 'pie', ...)
+            data: data,
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            // Định dạng trục Y dưới dạng tiền tệ
+                            callback: function (value) {
+                                return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            // Định dạng tooltip dưới dạng tiền tệ
+                            label: function (context) {
+                                let value = context.raw; // Giá trị gốc của dữ liệu
+                                return 'Doanh thu: ' + new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        const revenueChart = new Chart(
+            document.getElementById('revenueChart'),
+            config
+        );
+    }
+
+
+
+</script>
