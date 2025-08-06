@@ -26,7 +26,7 @@
 </hr>
 <ul>
   <li>Backend : .Net MVC (Framework 4.7.8)</li>
-  <li>FrontEnd : Blazor , HTML , CSS , JavaScript , jQuery/Ajax , Boostrap</li>
+  <li>FrontEnd : Razor , HTML , CSS , JavaScript , jQuery/Ajax , Boostrap</li>
   <li>Database : Sql Server</li>
   <li>IDE : Visual Studio (2019) </li>
 </ul>
