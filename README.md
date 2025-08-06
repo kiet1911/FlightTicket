@@ -12,7 +12,7 @@
   </thead>
   <tbody>
      <tr>
-      <td>Nguyến Tuán Kiệt</td>
+      <td>Nguyến Tuấn Kiệt</td>
       <td>20DH110204</td>
       <td>FullStack</td>
     </tr>
