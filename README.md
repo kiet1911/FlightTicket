@@ -28,7 +28,6 @@
   <li>Backend : .Net MVC (Framework 4.7.8)</li>
   <li>FrontEnd : Blazor , HTML , CSS , JavaScript , jQuery/Ajax , Boostrap</li>
   <li>Database : Sql Server</li>
-  <li>APIs : .Net APIs (Net 5) using Swagger UI</li>
   <li>IDE : Visual Studio (2019) </li>
 </ul>
 <h1 style="font-weight:bold">Some Main Features or the website :</h1>
@@ -36,7 +35,7 @@
 <ul>
   <li>Admin Control: Manage flights, bookings, and others </li>
   <li>User: Order tickets, pay tickets, login/register and others</li>
-  <li>Authentication: Implemented secure login using JWT (JSON Web Token) with role-based access control to restrict feature usage based on user permissions</li>
+  <li>Authentication: using Session to store User data for accessing permission </li>
   <li>Seat booking: Real-time booking with Ajax/jQuery, Schedule updates  with Hangfire(C# Nuget)</li>
   <li>Transaction History: View, paginate, and manage transactions </li>
   <li>Searching Flight schedule: Indexing(SQL server) to optimize search speed</li>
