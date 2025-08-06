@@ -19,6 +19,7 @@ using Hangfire;
 using System.Data.SqlClient;
 using Newtonsoft.Json.Linq;
 using System.Text.RegularExpressions;
+using EvoPdf;
 
 namespace AirlinesReservationSystem.Controllers
 {
@@ -27,7 +28,7 @@ namespace AirlinesReservationSystem.Controllers
         private Model1 db = new Model1();
         private readonly string apiUrl = "https://localhost:44371/api/";
 
-      
+
 
         Uri baseAddress = new Uri("https://localhost:44371/api/");
         private readonly HttpClient _client;
@@ -65,7 +66,7 @@ namespace AirlinesReservationSystem.Controllers
             List<Seats> ListIsbookingExpiration = db.Seats.Where(x => x.isbooked == 1 && x.BookingExpiration != null && x.BookingExpiration <= DateTime.Now).ToList();
             try
             {
-                foreach(var item in ListIsbookingExpiration)
+                foreach (var item in ListIsbookingExpiration)
                 {
                     item.isbooked = 0;
                     item.BookingExpiration = null;
@@ -145,7 +146,9 @@ namespace AirlinesReservationSystem.Controllers
 
             String Datecheck = _orderTicketForm.repartureDate;
 
-            _orderTicketForm.repartureDate = "%20" + _orderTicketForm.repartureDate;
+            //_orderTicketForm.repartureDate = "%20" + _orderTicketForm.repartureDate;
+
+
             ViewBag.from = new SelectList(db.AirPorts, "id", "code");
             ViewBag.to = new SelectList(db.AirPorts, "id", "code");
             ViewBag.flightSchedule = null;
@@ -168,7 +171,7 @@ namespace AirlinesReservationSystem.Controllers
                     }
                     DateTime currentDate = DateTime.Now;
                     DateTime intputDate = DateTime.Parse(Datecheck);
-                   
+
 
                     if (intputDate.Date < currentDate.Date)
                     {
@@ -181,31 +184,47 @@ namespace AirlinesReservationSystem.Controllers
                     {
                         try
                         {
-                            using (var client = new HttpClient())
+                            //using (var client = new HttpClient())
+                            //{
+                            try
                             {
-                                client.BaseAddress = new Uri(apiUrl);
+                                DateTime repartureDates = DateTime.Parse(_orderTicketForm.repartureDate.ToString());
+                                List<FlightSchedule> models = db.FlightSchedules.Where(s => s.to_airport == _orderTicketForm.to && s.from_airport == _orderTicketForm.from && EntityFunctions.TruncateTime(s.departures_at) == EntityFunctions.TruncateTime(repartureDates) && s.status_fs == "đang hoạt động").ToList();
+                                ViewBag.flightSchedule = models;
+                                return View(_orderTicketForm);
 
-                                var responses = await client.GetAsync($"FlightSchedules/getScheduleOrder/{_orderTicketForm.from},{_orderTicketForm.to},{ _orderTicketForm.repartureDate.Trim()},{"%20%20"}");
-
-                                if (responses.IsSuccessStatusCode)
-                                {
-                                    var content = await responses.Content.ReadAsStringAsync();
-                                    List<FlightSchedule> flightSchedules = JsonConvert.DeserializeObject<List<FlightSchedule>>(content);
-                                    ViewBag.flightSchedule = flightSchedules;
-                                    return View(_orderTicketForm);
-                                    //AuthHelper.setIdentity(user);
-                                    //AlertHelper.setToast("success", "Đăng nhập thành công.");
-                                    //return View("UserProfile", user);
-                                }
-                                else
-                                {
-                                    response["status"] = "400";
-                                    response["message"] = "Lỗi xảy ra.";
-                                    //ViewBag.ErrorMessage = "Invalid login credentials.";
-
-                                }
                             }
-                            return Content(JsonConvert.SerializeObject(response));
+                            catch (Exception ex)
+                            {
+
+                                response["status"] = "400";
+                                response["message"] = "Lỗi xảy ra.";
+                                ViewBag.ErrorMessage = "Invalid login credentials.";
+                            }
+                            //Lấy danh sach chuyến bay phù hợp vs thời gian.
+                            //client.BaseAddress = new Uri(apiUrl);
+
+                            //var responses = await client.GetAsync($"FlightSchedules/getScheduleOrder/{_orderTicketForm.from},{_orderTicketForm.to},{ _orderTicketForm.repartureDate.Trim()},{"%20%20"}");
+
+                            //if (responses.IsSuccessStatusCode)
+                            //{
+                            //    var content = await responses.Content.ReadAsStringAsync();
+                            //    List<FlightSchedule> flightSchedules = JsonConvert.DeserializeObject<List<FlightSchedule>>(content);
+                            //    ViewBag.flightSchedule = flightSchedules;
+                            //    return View(_orderTicketForm);
+                            //    //AuthHelper.setIdentity(user);
+                            //    //AlertHelper.setToast("success", "Đăng nhập thành công.");
+                            //    //return View("UserProfile", user);
+                            //}
+                            //else
+                            //{
+                            //    response["status"] = "400";
+                            //    response["message"] = "Lỗi xảy ra.";
+                            //    //ViewBag.ErrorMessage = "Invalid login credentials.";
+
+                            //}
+                            //}
+                            //return Content(JsonConvert.SerializeObject(response));
                         }
                         catch (Exception ex)
                         {
@@ -243,10 +262,10 @@ namespace AirlinesReservationSystem.Controllers
             Dictionary<string, string> response = new Dictionary<string, string>();
             response["status"] = "200";
             response["message"] = "";
-            if(flightSchedules.status_fs == "không hoạt động")
+            if (flightSchedules.status_fs == "không hoạt động")
             {
                 AlertHelper.setToast("danger", "Chuyến bay ngưng hoạt động");
-                 response["status"] = "400";
+                response["status"] = "400";
                 response["message"] = "Chuyến bay ngưng hoạt động.";
                 return Content(JsonConvert.SerializeObject(response));
             }
@@ -254,34 +273,35 @@ namespace AirlinesReservationSystem.Controllers
 
             try
             {
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri(apiUrl);
+
+                //using (var client = new HttpClient())
+                //{
+                //    client.BaseAddress = new Uri(apiUrl);
 
 
-                    var responses = client.GetAsync($"FlightSchedules/getScheduleByID/{id}").Result;
+                //    var responses = client.GetAsync($"FlightSchedules/getScheduleByID/{id}").Result;
 
-                    if (responses.IsSuccessStatusCode)
-                    {
-                        var content = await responses.Content.ReadAsStringAsync();
-                        flightSchedule = JsonConvert.DeserializeObject<FlightSchedule>(content);
-                        List<Seats> seats = db.Seats.Where(s => s.flight_schedules_id == id).ToList();
-                        ViewData["seatData"] = seats;
-                        return PartialView(flightSchedule);
-                        //List<FlightSchedule> flightSchedules = JsonConvert.DeserializeObject<List<FlightSchedule>>(content);
+                //    if (responses.IsSuccessStatusCode)
+                //    {
+                //        var content = await responses.Content.ReadAsStringAsync();
+                //        flightSchedule = JsonConvert.DeserializeObject<FlightSchedule>(content);
+                List<Seats> seats = db.Seats.Where(s => s.flight_schedules_id == id).ToList();
+                ViewData["seatData"] = seats;
+                return PartialView(flightSchedules);
+                //        //List<FlightSchedule> flightSchedules = JsonConvert.DeserializeObject<List<FlightSchedule>>(content);
 
-                    }
-                    else
-                    {
+                //    }
+                //    else
+                //    {
 
-                        response["status"] = "400";
-                        response["message"] = "Lỗi mất kết nối với dữ liệu.";
-                        return Content(JsonConvert.SerializeObject(response));
-                        //ViewBag.ErrorMessage = "Invalid login credentials.";
+                //        response["status"] = "400";
+                //        response["message"] = "Lỗi mất kết nối với dữ liệu.";
+                //        return Content(JsonConvert.SerializeObject(response));
+                //        //ViewBag.ErrorMessage = "Invalid login credentials.";
 
-                    }
-                }
-                return Content(JsonConvert.SerializeObject(response));
+                //    }
+                //}
+                //return Content(JsonConvert.SerializeObject(response));
             }
             catch (Exception ex)
             {
@@ -302,7 +322,7 @@ namespace AirlinesReservationSystem.Controllers
             return PartialView(flightSchedule);
         }
         [HttpPost]
-        public ActionResult Pays(string ticketID, int flight, int amount, String seats , string rowDataList)
+        public ActionResult Pays(string ticketID, int flight, int amount, String seats, string rowDataList)
         {
             Dictionary<string, string> response = new Dictionary<string, string>();
             var rowDataListObject = JsonConvert.DeserializeObject<dynamic>(rowDataList);
@@ -311,7 +331,7 @@ namespace AirlinesReservationSystem.Controllers
             response["message"] = "";
             //danh sach ky gui
             List<Baggage> lstBaggages = new List<Baggage>();
-           
+
             string CompareSeats = "";
             int amountBaggages = 0;
             if (seatArray.Length != rowDataListObject.Count)
@@ -329,7 +349,7 @@ namespace AirlinesReservationSystem.Controllers
             foreach (var item in rowDataListObject)
             {
                 Baggage baggage = new Baggage();
-                if (item == null || !baggage.checkBaggage((int)item["carryonbag"], (int)item["signedluggage"] , item["seat"].ToString() , AuthHelper.getIdentity().id))
+                if (item == null || !baggage.checkBaggage((int)item["carryonbag"], (int)item["signedluggage"], item["seat"].ToString(), AuthHelper.getIdentity().id))
                 {
                     response["status"] = "400";
                     response["message"] = "Không được để trống giá trị của vùng ký gửi";
@@ -344,7 +364,7 @@ namespace AirlinesReservationSystem.Controllers
                 CompareSeats = CompareSeats + baggage.code;
             }
             string seatComp = seats.Replace(",", "").Trim();
-            if(CompareSeats.Trim() != seatComp)
+            if (CompareSeats.Trim() != seatComp)
             {
                 response["status"] = "400";
                 response["message"] = "Thứ tự vùng ký gửi sai.";
@@ -372,13 +392,13 @@ namespace AirlinesReservationSystem.Controllers
             FlightSchedule flights = db.FlightSchedules.FirstOrDefault(x => x.id == flight);
             int amountTicket = Int32.Parse(flights.cost.ToString()) * amount;
             int amountTicketSingle = Int32.Parse(flights.cost.ToString());
-            
+
 
 
 
             bool checkticket = CheckLocalSeats(flight, seats);
 
-           
+
             if (!AuthHelper.isLogin())
             {
                 response["status"] = "400";
@@ -426,11 +446,11 @@ namespace AirlinesReservationSystem.Controllers
                         // Tìm kiếm ghế cần đặt
                         Seats seat = db.Seats.FirstOrDefault(x =>
                             x.flight_schedules_id == item.flight_schedules_id &&
-                            x.seat == item.seat_location.ToString()  && x.isbooked == 0);
+                            x.seat == item.seat_location.ToString() && x.isbooked == 0);
                         if (seat != null)
                         {
                             seat.isbooked = 1;
-                            seat.BookingExpiration = expirationTime;   
+                            seat.BookingExpiration = expirationTime;
                             db.Entry(seat).State = EntityState.Modified;
                         }
                         else
@@ -462,7 +482,7 @@ namespace AirlinesReservationSystem.Controllers
                     // Xử lý ngoại lệ khác nếu có
                 }
             }
-         
+
             Session["lstTicket"] = lstTicket;
             Session["amountTicket"] = amountTicket;
             Session["amountTicketSingle"] = amountTicketSingle;
@@ -518,7 +538,7 @@ namespace AirlinesReservationSystem.Controllers
             {
                 return RedirectToAction("Index");
             }
-            
+
             User user = AuthHelper.getIdentity();
             IEnumerable<TicketManager> ticketManagers = Session["lstTicket"] as IEnumerable<TicketManager>;
             if (ticketManagers == null)
@@ -541,7 +561,7 @@ namespace AirlinesReservationSystem.Controllers
                     if (flagSeat != null)
                     {
                         return true;
-                      
+
                     }
                     else
                     {
@@ -573,7 +593,7 @@ namespace AirlinesReservationSystem.Controllers
             }
             Baggage baggage = db.Baggage.Where(s => s.code == ticket.code).FirstOrDefault();
 
-            if(baggage == null)
+            if (baggage == null)
             {
                 Session["baggageUser"] = null;
             }
@@ -664,7 +684,7 @@ namespace AirlinesReservationSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditUser([Bind(Include = "id,name,email,cccd,address,phone_number,password,user_type")] User user)
         {
-           
+
             if (checkGmail(user.email) != true)
             {
                 ModelState.AddModelError("email", "Sai định dạng gmail, vui lòng nhập đúng định dạng email.");
@@ -676,17 +696,17 @@ namespace AirlinesReservationSystem.Controllers
             if (checkCCCD(user.cccd) != true)
             {
                 ModelState.AddModelError("cccd", "Sai định dạng căn cước công dân.");
-                
+
             }
             if (checkPhoneNumber(user.phone_number) != true)
             {
                 ModelState.AddModelError("phone_number", "Sai định dạng số điện thoại.");
-                
+
             }
             if (IsPasswordStrong(user.password) != true)
             {
                 ModelState.AddModelError("password", "Password phải nhiều hơn 8 và chứa ít nhất 1 từ ghi hoa và 1 ký tự đặt biệt.");
-               
+
             }
             if (ModelState.IsValid)
             {
@@ -748,7 +768,7 @@ namespace AirlinesReservationSystem.Controllers
                 return count > 0;
             }
         }
-        
+
 
         public ActionResult PaymentWithPaypal(string Cancel = null)
         {
@@ -810,11 +830,11 @@ namespace AirlinesReservationSystem.Controllers
                     Session["SaleId"] = payments.PayerID_Payment;
                     payments.UserID = AuthHelper.getIdentity().id;
 
-                    if(CheckTicketSeats () == false)
+                    if (CheckTicketSeats() == false)
                     {
                         InitiateRefund();
                         return RedirectToAction("Refund", "Home");
-                        
+
                     }
 
 
@@ -842,7 +862,7 @@ namespace AirlinesReservationSystem.Controllers
                 seat.isbooked = 1;
                 seat.BookingExpiration = null;
                 //update booked
-                FlightSchedule flight = db.FlightSchedules.FirstOrDefault(x =>  x.id == item.flight_schedules_id);
+                FlightSchedule flight = db.FlightSchedules.FirstOrDefault(x => x.id == item.flight_schedules_id);
                 flight.bookedSeats += 1;
 
                 //update seats
@@ -851,7 +871,7 @@ namespace AirlinesReservationSystem.Controllers
                 db.Entry(flight).State = EntityState.Modified;
             }
             //add Baggages
-            foreach(var item in itemsBaggage)
+            foreach (var item in itemsBaggage)
             {
                 item.code = item.code.Trim();
                 //add 
@@ -941,10 +961,10 @@ namespace AirlinesReservationSystem.Controllers
             Session["lstTicket"] = itemsTicket;
 
             int price = (int)Session["amountTicket"] + (int)Session["amountBaggage"];
-           
+
             int priceSingle = (int)Session["amountTicketSingle"];
 
-            double convertUSD = Math.Round((double)price  / 25380, 2);
+            double convertUSD = Math.Round((double)price / 25380, 2);
             double convertUSDSingle = Math.Round((double)priceSingle / 25380, 2);
 
             String converUSDdot = convertUSD.ToString().Replace(",", ".");
@@ -1049,12 +1069,188 @@ namespace AirlinesReservationSystem.Controllers
                 TicketManager check = db.TicketManagers.FirstOrDefault(x => x.flight_schedules_id == flightschedule && x.seat_location == itemNumber);
                 if (check != null)
                 {
-                    checkitem = false;                   
+                    checkitem = false;
                 }
                 break;
             }
             return checkitem;
         }
+        [HttpPost]
+        public ActionResult PDFexport(TicketManager ticket)
+        {
+            Baggage baggage;
+            if (!ModelState.IsValid)
+            {
+                return Content("<scrip> alert(" + "error" + ") </script>");
+            }
+            else
+            {
+                TicketManager demo = ticket;
+                int? id = Int32.Parse(Request.Form["id"]);
+                if (id == null)
+                {
+                    return HttpNotFound();
+                }
+                ticket = db.TicketManagers.Where(x => x.id == id).FirstOrDefault();
+
+                baggage = db.Baggage.Where(x => x.code == ticket.code).FirstOrDefault();
+            }
+            // 1. Tạo một thể hiện (instance) của HtmlToPdfConverter
+            HtmlToPdfConverter htmlToPdfConverter = new HtmlToPdfConverter();
+
+            // 2. (Tùy chọn) Cấu hình các tùy chọn cho PDF (khổ giấy, lề, v.v.)
+            //htmlToPdfConverter.LicenseKey = "Khóa bản quyền của bạn"; // Đặt khóa bản quyền (cần cho production)
+            htmlToPdfConverter.PdfDocumentOptions.PdfPageSize = PdfPageSize.A4;
+            htmlToPdfConverter.PdfDocumentOptions.PdfPageOrientation = PdfPageOrientation.Portrait;
+            htmlToPdfConverter.PdfDocumentOptions.LeftMargin = 5;
+            htmlToPdfConverter.PdfDocumentOptions.RightMargin = 5;
+
+            // 3. Chuẩn bị chuỗi HTML cần chuyển đổi (Đây là nơi bạn có thể đặt HTML của vé máy bay)
+
+            string imagePath = Server.MapPath("~/Asset/logo.png");
+            byte[] imageBytes = System.IO.File.ReadAllBytes(imagePath);
+            string base64String = Convert.ToBase64String(imageBytes);
+            string imageDataUri = $"data:image/png;base64,{base64String}";
+
+            string baggageHtml = "";
+            if (baggage.signed_luggage > 0)
+            {
+                baggageHtml = $@"
+        <div class='info-row'>
+            <div class='info-item'><span>checked baggage:</span> {baggage.signed_luggage} kg</div>
+            <div class='info-item'><span>Total baggage Price:</span> {MoneyHelper.showVND(baggage.signed_luggage * 10000)}</div>
+        </div>";
+            }
+            string htmlToConvert = $@"
+    <html>
+    <head>
+        <meta charset='utf-8'>
+        <title>Vé Máy Bay Điện Tử</title>
+        <style>
+            body {{
+                font-family: 'Open Sans', Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f7f7f7;
+            }}
+            .ticket-container {{
+                max-width: 700px;
+                margin: 30px auto;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            }}
+            .ticket-header {{
+                background-color: #007bff;
+                color: #fff;
+                padding: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }}
+            .ticket-header img {{
+                height: 50px;
+                margin-right: 20px;
+            }}
+            .ticket-header h4 {{
+                margin: 0;
+                font-size: 24px;
+            }}
+            .ticket-section {{
+                padding: 20px;
+                border-bottom: 1px solid #eee;
+            }}
+            .ticket-section h5 {{
+                margin-top: 0;
+                color: #333;
+                border-bottom: 2px solid #007bff;
+                padding-bottom: 5px;
+            }}
+            .info-row {{
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 10px;
+            }}
+            .info-item {{
+                flex: 1;
+            }}
+            .info-item span {{
+                font-weight: bold;
+                color: #555;
+            }}
+            .highlight {{
+                color: white;
+                font-weight: bold;
+            }}
+            .footer {{
+                background-color: #f1f1f1;
+                text-align: center;
+                padding: 15px;
+                font-size: 12px;
+                color: #666;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class='ticket-container'>
+            <div class='ticket-header'>
+                <img src='{imageDataUri}' alt='Logo'>
+                <h4>Ticket Code: <span class='highlight'>{ticket.code}</span></h4>
+            </div>
+
+            <div class='ticket-section'>
+                <h5>Thông tin hành khách</h5>
+                <div class='info-row'>
+                    <div class='info-item'><span>Customer:</span> {ticket.User.email}</div>
+                    <div class='info-item'><span>Status:</span> {ticket.getStatus()}</div>
+                </div>
+            </div>
+
+            <div class='ticket-section'>
+                <h5>Thông tin chuyến bay</h5>
+                <div class='info-row'>
+                    <div class='info-item'><span>Plane:</span> {ticket.FlightSchedule.Plane.name}</div>
+                    <div class='info-item'><span>Seats:</span> {ticket.seat_location}</div>
+                </div>
+                <div class='info-row'>
+                    <div class='info-item'><span>From:</span> {ticket.FlightSchedule.AirPort.name}</div>
+                    <div class='info-item'><span>To:</span> {ticket.FlightSchedule.AirPort1.name}</div>
+                </div>
+                <div class='info-row'>
+                    <div class='info-item'><span>Departures At:</span> {ticket.FlightSchedule.departures_at}</div>
+                    <div class='info-item'><span>Arrivals At:</span> {ticket.FlightSchedule.arrivals_at}</div>
+                </div>
+            </div>
+
+            <div class='ticket-section'>
+                <h5>Chi tiết giá</h5>
+                <div class='info-row'>
+                    <div class='info-item'><span>Price:</span> {MoneyHelper.showVND(ticket.FlightSchedule.cost)}</div>
+                </div>
+                {baggageHtml}
+                <hr>
+                <div class='info-row'>
+                    <div class='info-item'><span>ToTal Price:</span> <span class='highlight'>{MoneyHelper.showVND(ticket.FlightSchedule.cost + (baggage.signed_luggage * 10000))}</span></div>
+                </div>
+            </div>
+
+            <div class='footer'>
+                <p><b>Note:</b> You must be at the airport 30 minutes before departure time</p>
+            </div>
+        </div>
+    </body>
+    </html>";
+
+
+
+            // 4. Chuyển đổi chuỗi HTML thành một mảng byte (file PDF)
+            byte[] pdfBytes = htmlToPdfConverter.ConvertHtml(htmlToConvert, null);
+
+            // 5. Trả về file PDF
+            // Tên file khi tải về sẽ là "Ticket.pdf"
+            return File(pdfBytes, "application/pdf", "Ticket.pdf");
+        }
+
 
 
         public ActionResult About()
