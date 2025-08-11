@@ -621,11 +621,12 @@ namespace AirlinesReservationSystem.Controllers
         // Hàm này trả về một View để chỉnh sửa thông tin người dùng dựa trên ID được cung cấp.
         public ActionResult EditUser(int? id)
         {
-            if (id == null)
+            User userAuth = AuthHelper.getIdentity();
+            User user = db.Users.Find(id);
+            if (id == null || userAuth.id != user.id)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
