@@ -27,7 +27,7 @@ namespace AirlinesReservationSystem.Controllers
     {
         private Model1 db = new Model1();
         private readonly string apiUrl = "https://localhost:44371/api/";
-
+        public IBackgroundJobClient backgroundJobClient = new BackgroundJobClient();
 
 
         Uri baseAddress = new Uri("https://localhost:44371/api/");
@@ -40,9 +40,14 @@ namespace AirlinesReservationSystem.Controllers
         }
         public async Task RunWithSeconds()
         {
+            TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+
+            // Chuyển đổi giờ UTC hiện tại sang giờ Việt Nam
+            DateTime vietnamNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
+
             for (int i = 0; i < 60; i++) // 60 lần mỗi 1 giây trong 1 phút
             {
-                List<Seats> ListIsbookingExpiration = db.Seats.Where(x => x.isbooked == 1 && x.BookingExpiration != null && x.BookingExpiration <= DateTime.Now).ToList();
+                List<Seats> ListIsbookingExpiration = db.Seats.Where(x => x.isbooked == 1 && x.BookingExpiration != null && x.BookingExpiration <= vietnamNow).ToList();
                 try
                 {
                     foreach (var item in ListIsbookingExpiration)
@@ -63,7 +68,12 @@ namespace AirlinesReservationSystem.Controllers
         }
         public async Task<ActionResult> RunScheduleMethods()
         {
-            List<Seats> ListIsbookingExpiration = db.Seats.Where(x => x.isbooked == 1 && x.BookingExpiration != null && x.BookingExpiration <= DateTime.Now).ToList();
+            TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+
+            // Chuyển đổi giờ UTC hiện tại sang giờ Việt Nam
+            DateTime vietnamNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
+
+            List<Seats> ListIsbookingExpiration = db.Seats.Where(x => x.isbooked == 1 && x.BookingExpiration != null && x.BookingExpiration <= vietnamNow).ToList();
             try
             {
                 foreach (var item in ListIsbookingExpiration)
@@ -324,6 +334,9 @@ namespace AirlinesReservationSystem.Controllers
         [HttpPost]
         public ActionResult Pays(string ticketID, int flight, int amount, String seats, string rowDataList)
         {
+            BackgroundJob.Schedule(() => RunWithSeconds(), TimeSpan.FromMinutes(2));
+
+
             Dictionary<string, string> response = new Dictionary<string, string>();
             var rowDataListObject = JsonConvert.DeserializeObject<dynamic>(rowDataList);
             string[] seatArray = seats.Split(',');
@@ -438,7 +451,9 @@ namespace AirlinesReservationSystem.Controllers
             using (var transaction = db.Database.BeginTransaction())
             {
                 // Thiết lập thời gian hết hạn cho tất cả các chỗ ngồi
-                DateTime expirationTime = DateTime.Now.AddMinutes(2);
+                TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+                DateTime vietnamNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
+                DateTime expirationTime = vietnamNow.AddMinutes(2);
                 try
                 {
                     foreach (var item in lstTicket)
@@ -619,14 +634,15 @@ namespace AirlinesReservationSystem.Controllers
             return RedirectToAction("YourTicket", "Home");
         }
         // Hàm này trả về một View để chỉnh sửa thông tin người dùng dựa trên ID được cung cấp.
+
         public ActionResult EditUser(int? id)
         {
             User userAuth = AuthHelper.getIdentity();
-            User user = db.Users.Find(id);
-            if (id == null || userAuth.id != user.id)
+            if (id == null || userAuth.id != id)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            User user = db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -957,27 +973,26 @@ namespace AirlinesReservationSystem.Controllers
         }
         private Payment CreatePayment(APIContext apiContext, string redirectUrl)
         {
+            //take data from session 
             List<TicketManager> itemsTicket = Session["lstTicket"] as List<TicketManager>;
-
+            List<Baggage> priceB = Session["lstBaggages"] as List<Baggage>;
+            if (itemsTicket == null || priceB == null)
+            {
+                return null;
+            }
             Session["lstTicket"] = itemsTicket;
+            decimal subtotal = 0;
+            const decimal TỶ_GIA_USD = 25380;
 
             int price = (int)Session["amountTicket"] + (int)Session["amountBaggage"];
 
             int priceSingle = (int)Session["amountTicketSingle"];
 
-            double convertUSD = Math.Round((double)price / 25380, 2);
-            double convertUSDSingle = Math.Round((double)priceSingle / 25380, 2);
+            double convertUSD = Math.Round((double)price / 25380, 10);
+            double convertUSDSingle = Math.Round((double)priceSingle / 25380, 10);
 
             String converUSDdot = convertUSD.ToString().Replace(",", ".");
-
-
-            List<Baggage> priceB = new List<Baggage>();
-
-            priceB = Session["lstBaggages"] as List<Baggage>;
-
             //lstBaggages
-
-
             //create itemlist and add item objects to it  
             var itemList = new ItemList()
             {
@@ -987,22 +1002,26 @@ namespace AirlinesReservationSystem.Controllers
 
             foreach (var item in itemsTicket)
             {
+                decimal priceTicketUSD = Math.Round((decimal)priceSingle / TỶ_GIA_USD, 2);
+                subtotal += priceTicketUSD;
                 itemList.items.Add(new Item()
                 {
                     name = "don ve may bay " + item.code,
                     currency = "USD",
-                    price = convertUSDSingle.ToString().Replace(",", "."),
+                    price = convertUSDSingle.ToString("F2", CultureInfo.InvariantCulture),
                     quantity = "1",
                     sku = "sku"
                 });
             }
             foreach (var item in priceB)
             {
+                decimal priceBaggageUSD = Math.Round((decimal)item.signed_luggage * 10000 / TỶ_GIA_USD, 2);
+                subtotal += priceBaggageUSD;
                 itemList.items.Add(new Item()
                 {
                     name = "don ky gui " + item.code,
                     currency = "USD",
-                    price = Math.Round(((double)item.signed_luggage * 10000) / 25380, 2).ToString().Replace(",", "."),
+                    price = priceBaggageUSD.ToString("F2", CultureInfo.InvariantCulture) /*Math.Round(((double)item.signed_luggage * 10000) / 25380, 2).ToString().Replace(",", ".")*/,
                     quantity = "1",
                     sku = "sku"
                 });
@@ -1023,13 +1042,13 @@ namespace AirlinesReservationSystem.Controllers
             {
                 tax = "0.00",
                 shipping = "0.00",
-                subtotal = converUSDdot
+                subtotal = subtotal.ToString("F2", CultureInfo.InvariantCulture)
             };
             //Final amount with details  
             var amount = new Amount()
             {
                 currency = "USD",
-                total = converUSDdot, // Total must be equal to sum of tax, shipping and subtotal.  
+                total = subtotal.ToString("F2", CultureInfo.InvariantCulture),
                 details = details
             };
             var transactionList = new List<Transaction>();
