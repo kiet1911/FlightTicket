@@ -264,7 +264,7 @@ namespace AirlinesReservationSystem.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                AlertHelper.setAlert("Error", "Xóa dữ liệu chuyến bay thất bại.");
+                AlertHelper.setAlert("danger", "Xóa dữ liệu chuyến bay thất bại.");
                 return RedirectToAction("Index");
             }
         }
