@@ -31,7 +31,7 @@ namespace AirlinesReservationSystem.Areas.Admin.Controllers
         // GET: Admin/Users
         public ActionResult Index()
         {
-            return View(db.Users.Where(x=>x.user_type == 1).ToList());
+            return View(db.Users.Where(x => x.user_type == 1).ToList());
         }
 
         // GET: Admin/Users/Details/5
@@ -63,7 +63,7 @@ namespace AirlinesReservationSystem.Areas.Admin.Controllers
         public ActionResult Create([Bind(Include = "id,name,email,cccd,address,phone_number,password,user_type")] User user)
         {
             var emailExit = db.Users.FirstOrDefault(u => u.email == user.email);
-            if(emailExit != null)
+            if (emailExit != null)
             {
                 ModelState.AddModelError("email", "Email đã tồn tại.");
                 return View(user);
@@ -87,7 +87,7 @@ namespace AirlinesReservationSystem.Areas.Admin.Controllers
             {
                 db.Users.Add(user);
                 db.SaveChanges();
-                AlertHelper.setAlert("success", "Tạo dữ liệu người dùng thành công.");
+                AlertHelper.setToast("success", "Tạo dữ liệu người dùng thành công.");
                 return RedirectToAction("Index");
             }
             return View(user);
@@ -120,7 +120,7 @@ namespace AirlinesReservationSystem.Areas.Admin.Controllers
             //new 
             User emailOld = db.Users.Find(user.id);
 
-            if (emailExit != null && emailOld.email.Trim() != user.email.Trim() )
+            if (emailExit != null && emailOld.email.Trim() != user.email.Trim())
             {
                 ModelState.AddModelError("email", "Email đã tồn tại.");
                 return View(user);
@@ -150,6 +150,7 @@ namespace AirlinesReservationSystem.Areas.Admin.Controllers
                 emailOld.password = user.password;
                 db.Entry(emailOld).State = EntityState.Modified;
                 db.SaveChanges();
+                AlertHelper.setAlert("success", "Cập nhập dữ liệu người dùng thành công.");
                 return RedirectToAction("Index");
             }
             return View(user);
@@ -160,7 +161,12 @@ namespace AirlinesReservationSystem.Areas.Admin.Controllers
         {
             User user = db.Users.Find(id);
             db.Users.Remove(user);
-            db.SaveChanges();
+            try { db.SaveChanges(); }
+            catch (Exception ex)
+            {
+                AlertHelper.setAlert("danger", "Xóa dữ liệu người dùng thất bại.");
+                return RedirectToAction("Index");
+            }
             AlertHelper.setAlert("success", "Xóa dữ liệu người dùng thành công.");
             return RedirectToAction("Index");
         }
@@ -192,7 +198,7 @@ namespace AirlinesReservationSystem.Areas.Admin.Controllers
         public bool checkGmail(String gmail)
         {
             string pattern = @"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|""(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*"")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])";
-            if (Regex.IsMatch(gmail, pattern , RegexOptions.IgnoreCase))
+            if (Regex.IsMatch(gmail, pattern, RegexOptions.IgnoreCase))
             {
                 return true;
             }
