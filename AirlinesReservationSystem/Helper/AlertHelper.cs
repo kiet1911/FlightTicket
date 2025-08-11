@@ -10,12 +10,17 @@ namespace AirlinesReservationSystem.Helper
         public static string showAlert()
         {
             string html = "";
-            html = "<div class=\"alert alert-{{type}} alert - dismissible fade show mt-2\" role=\"alert\">";
+            html = "<div id=\"demo\" class=\"alert alert-{{type}} alert - dismissible fade show mt-2\" role=\"alert\" >";
             html += "{{message}}";
             html += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">";
             html += "<span aria-hidden=\"true\">&times;</span>";
             html += "</button>";
             html += "</div>";
+            html += "</div>";
+            html += "<script>";
+            html += "var x = document.getElementById(\"demo\");";
+            html += "setTimeout(function () { document.body.removeChild(x); }, 8000);";
+            html += "</script>";
             string type = (string)HttpContext.Current.Session["typeAlert"];
             string message = (string)HttpContext.Current.Session["messageAlert"];
             HttpContext.Current.Session.Remove("typeAlert");
@@ -29,7 +34,7 @@ namespace AirlinesReservationSystem.Helper
             return null;
         }
 
-        public static void setAlert(string type,string message)
+        public static void setAlert(string type, string message)
         {
             HttpContext.Current.Session["typeAlert"] = type;
             HttpContext.Current.Session["messageAlert"] = message;
@@ -44,12 +49,12 @@ namespace AirlinesReservationSystem.Helper
             string html = "";
             html = "<div id=\"snackbar\">";
             html += "<div class=\"alert alert-{{type}} alert-dismissible\">";
-            html+= "<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>";
+            html += "<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>";
             html += "<b>{{message}}</b>";
             html += "</div>";
             html += "</div>";
             html += "<script>";
-            html+= "var x = document.getElementById(\"snackbar\");"; 
+            html += "var x = document.getElementById(\"snackbar\");";
             html += " x.className = \"show\";";
             html += "setTimeout(function () { x.className = x.className.replace(\"show\", \"\"); }, 8000);";
             html += "</script>";
