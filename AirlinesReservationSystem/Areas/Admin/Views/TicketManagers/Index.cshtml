@@ -62,7 +62,7 @@
                                 @Html.DisplayFor(modelItem => item.User.email)
                             </td>
                             <td>
-                                <span class="badge badge-@item.getLabelStatus() font-weight-bold">@item.getStatus()</span>
+                                <span class="text-@item.getLabelStatus() ">@item.getStatus()</span>
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.seat_location)
@@ -75,14 +75,11 @@
                             </td>
                             <td>
                                 @MoneyHelper.showVND(@MoneyHelper.TakeMoney(item.flight_schedules_id))
-                                
+
                             </td>
                             <td>
                                 <a href="@Url.Action("Edit",new { id = item.id })"><i class="fa fa-pencil" aria-hidden="true"></i></a> |
                                 <a href="@Url.Action("Details",new { id = item.id })"><i class="fa fa-book" aria-hidden="true"></i></a> |
-                                <a href="@Url.Action("Delete",new { id = item.id })">
-                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                </a>
                             </td>
                         </tr>
                     }
