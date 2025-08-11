@@ -46,10 +46,12 @@ namespace AirlinesReservationSystem.Areas.Admin.Controllers
                     if(user.user_type == 0)
                     {
                         HttpContext.Session["Role"] = "Employee";
+                        HttpContext.Session["NameEmployee"] = user.name;
                     }
                     else
                     {
                         HttpContext.Session["Role"] = "Admin";
+                        HttpContext.Session["NameEmployee"] = user.name;
                     }
                     AuthHelper.setIdentityEmployee(uses);
                     return RedirectToAction("Index", "FlightSchedules");
