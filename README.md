@@ -49,14 +49,15 @@
 </hr>
 <a href="https://drive.google.com/file/d/1zdXCdiVZdRSOM_yHML6RL4xDAPXVpGsj/view?usp=drive_link">Link to SQL File</a>
 <h1 style="font-weight:bold">Setup MVC Project :</h1>
+<p>Account in admin site : userName: droang01@gmail.com, password: 123456</p>
+<p>Account in Customer site : userName: droang09@gmail.com, password: Kuphe1980</p>
+<p>Account in Customer paypal account : userName: sb-opsgg43593834@personal.example.com, password: Kj'PG+9;</p>
 </hr>
-<span>Please change the APIs link by your API Setup in Webconfig</span>
-</br>
-<span>Please change the APIs key Paypal by your API in file WebConfig</span>
+<span>Please change the APIs key Paypal by your API in file WebConfig if you use your own sandbox paypal</span>
 </br>
 <img width="392" height="160" alt="image" src="https://github.com/user-attachments/assets/a8e77e5a-b73a-4ad4-ba86-c979569989ea" />
 </br>
-<span>Please change the Sql Server connection for Debugging</span>
+<span>Please change the Sql Server connection if you use your own database</span>
 </br>
 <img width="698" height="60" alt="image" src="https://github.com/user-attachments/assets/6b309049-61aa-49d3-8de3-7f3c3202aa69" />
 
