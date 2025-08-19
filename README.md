@@ -48,10 +48,15 @@
 <h1 style="font-weight:bold">Setup SQL Server :</h1>
 </hr>
 <a href="https://drive.google.com/file/d/1zdXCdiVZdRSOM_yHML6RL4xDAPXVpGsj/view?usp=drive_link">Link to SQL File</a>
-<h1 style="font-weight:bold">Setup MVC Project :</h1>
+</hr> 
+<h1>Account for Testing :</h1>
 <p>Account in admin site : userName: droang01@gmail.com, password: 123456</p>
+<p>Account in WEB API site : userName: droang01@gmail.com, password: 123456 for admin</p>
+<p>Account in WEB API site : userName: asdsaphat@gmail.com, password: 123456T@ for employee</p>
 <p>Account in Customer site : userName: droang09@gmail.com, password: Kuphe1980</p>
 <p>Account in Customer paypal account : userName: sb-opsgg43593834@personal.example.com, password: Kj'PG+9;</p>
+</hr>
+<h1 style="font-weight:bold">Setup MVC Project :</h1>
 </hr>
 <span>Please change the APIs key Paypal by your API in file WebConfig if you use your own sandbox paypal</span>
 </br>
