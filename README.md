@@ -32,7 +32,7 @@
   <li>Database : Sql Server</li>
   <li>IDE : Visual Studio (2019) </li>
 </ul>
-<h1 style="font-weight:bold">Some Main Features or the website :</h1>
+<h1 style="font-weight:bold">Some Main Features on the website :</h1>
 </hr>
 <ul>
   <li>Admin Control: Manage flights, bookings, and others </li>
