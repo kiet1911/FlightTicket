@@ -1222,7 +1222,6 @@ C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\bin\sv\Hang
 C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\bin\tr-TR\Hangfire.Core.resources.dll
 C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\bin\zh\Hangfire.Core.resources.dll
 C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\bin\zh-TW\Hangfire.Core.resources.dll
-C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\obj\Debug\AirlinesReservationSystem.csproj.AssemblyReference.cache
 C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\obj\Debug\AirlinesReservationSystem.csproj.CoreCompileInputs.cache
 C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\obj\Debug\AirlinesReservationSystem.csproj.CopyComplete
 C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\obj\Debug\AirlinesReservationSystem.dll
@@ -1232,3 +1231,6 @@ C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\bin\roslyn\
 C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\bin\roslyn\System.Memory.dll
 C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\bin\roslyn\System.Numerics.Vectors.dll
 C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\bin\roslyn\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\bin\evohtmltopdf.dll
+C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\bin\evohtmltopdf.xml
+C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\bin\evointernal.dat

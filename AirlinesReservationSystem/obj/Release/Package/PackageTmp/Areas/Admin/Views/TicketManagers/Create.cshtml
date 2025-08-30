@@ -1,73 +1,87 @@
 ﻿@model AirlinesReservationSystem.Models.TicketManager
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Tạo vé";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container mt-2">
     <div class="card">
         <div class="card-header">
-            <b style="font-size:1.4rem">@ViewBag.Title</b>
-            <a href="@Url.Action("Index")" class="btn btn-secondary pull-right">< Quay lại</a>
+            <div class="row justify-content-around">
+                <b class="col-md-10 col-sm-12" style="font-size:1.4rem">@ViewBag.Title</b>
+                <a href="@Url.Action("Index")" class="btn btn-secondary col-md-1 col-sm-12 "><i class="bi bi-arrow-left-circle"></i> Quay lại</a>
+            </div>
         </div>
         <div class="card-body">
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()
+
                 <div class="form-horizontal">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.flight_schedules_id, "flight_schedules_id", htmlAttributes: new { @class = "control-label col-md-2", @required = "required" })
-                        <div class="col-md-10">
-                            @Html.DropDownList("flight_schedules_id", null, htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.flight_schedules_id, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.user_id, "user_id", htmlAttributes: new { @class = "control-label col-md-2", @required = "required" })
-                        <div class="col-md-10">
-                            @Html.DropDownList("user_id", null, htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.user_id, "", new { @class = "text-danger" })<br />
-                            <input id="browserInput" class="form-control" placeholder="Searh name or phone number..." value="">
+                        <div class="row">
+                            @Html.LabelFor(model => model.flight_schedules_id, "flight_schedules_id", htmlAttributes: new { @class = "control-label col-md-2", @required = "required" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("flight_schedules_id", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.flight_schedules_id, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                     </div>
-
+                    <br />
                     <div class="form-group">
-                        @Html.LabelFor(model => model.status, htmlAttributes: new { @class = "control-label col-md-2", @required = "required" })
-                        <div class="col-md-10">
-                            @Html.DropDownList("status", null, htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
+                        <div class="row">
+                            @Html.LabelFor(model => model.user_id, "user_id", htmlAttributes: new { @class = "control-label col-md-2", @required = "required" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("user_id", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.user_id, "", new { @class = "text-danger" })<br />
+                                <input id="browserInput" class="form-control" placeholder="Searh name or phone number..." value="">
+                            </div>
                         </div>
                     </div>
-
+                    <br />
+                    <div class="form-group">
+                        <div class="row">
+                            @Html.LabelFor(model => model.status, htmlAttributes: new { @class = "control-label col-md-2", @required = "required" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("status", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <br />
                     @*seat location*@
                     <div class="form-group">
-                        @Html.LabelFor(model => model.seat_location, "seat_location", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.TextBox("seat_location", null, htmlAttributes: new { @class = "form-control", @type = "number", @min = "1", @max = "30", @required = "required" })
-                            @Html.ValidationMessageFor(model => model.seat_location, "", new { @class = "text-danger" })
+                        <div class="row">
+                            @Html.LabelFor(model => model.seat_location, "seat_location", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBox("seat_location", null, htmlAttributes: new { @class = "form-control", @type = "number", @min = "1", @max = "30", @required = "required" })
+                                @Html.ValidationMessageFor(model => model.seat_location, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                     </div>
-
+                    <br />
                     @*pay_id*@
                     <div class="form-group">
-                        @Html.LabelFor(model => model.pay_id, "pay_id", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownList("pay_id", null, htmlAttributes: new { @class = "form-control", @id = "pay_id" })
-                            @Html.ValidationMessageFor(model => model.pay_id, "", new { @class = "text-danger" })<br />
+                        <div class="row">
+                            @Html.LabelFor(model => model.pay_id, "pay_id", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("pay_id", null, htmlAttributes: new { @class = "form-control", @id = "pay_id" })
+                                @Html.ValidationMessageFor(model => model.pay_id, "", new { @class = "text-danger" })<br />
 
-                            <input id="browserInputPay" class="form-control" placeholder="Searh id or name or PayID..." value=""><br />
-                            <label>Null PayID</label>
-                            <input type="checkbox" id="browserInputPayNullOption" onclick="check(this)" />
+                                <input id="browserInputPay" class="form-control" placeholder="Searh id or name or PayID..." value=""><br />
+                                <label>Null PayID</label>
+                                <input type="checkbox" id="browserInputPayNullOption" onclick="check(this)" />
+                            </div>
                         </div>
                     </div>
-
-
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Create" class="btn btn-success" />
+                        <div class="row justify-content-md-center">
+                            <div class="col-sm-12 col-md-1">
+                                <input type="submit" value="Tạo" class="btn btn-success" />
+                            </div>
                         </div>
                     </div>
                 </div>

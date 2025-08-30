@@ -522,8 +522,14 @@
     <Content Include="Areas\Admin\Views\AirPort\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\AirPort\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\ChartFlight\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\kiet1911-001-site1 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\kiet1911-001-site1 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\kuphe1980-001-site1 - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\kuphe1980-001-site1 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\site35191-WebDeploy.pubxml" />
+    <None Include="Properties\PublishProfiles\site35192-WebDeploy.pubxml" />
+    <None Include="Properties\PublishProfiles\site35192-WebDeploy1.pubxml" />
+    <None Include="Properties\PublishProfiles\site35193-WebDeploy.pubxml" />
+    <None Include="Properties\PublishProfiles\site35193-WebDeploy1.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />

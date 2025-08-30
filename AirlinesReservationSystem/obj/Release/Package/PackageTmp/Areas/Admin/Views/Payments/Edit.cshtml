@@ -1,14 +1,16 @@
 ﻿@model AirlinesReservationSystem.Models.Payments
 
 @{
-    ViewBag.Title = "Cập nhập";
+    ViewBag.Title = "Cập nhập thanh toán";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 <div class="container mt-2">
     <div class="card">
         <div class="card-header">
-            <b style="font-size:1.4rem">@ViewBag.Title Payments</b>
-            <a href="@Url.Action("Index")" class="btn btn-secondary pull-right">< Quay lại</a>
+            <div class="row justify-content-around">
+                <b class="col-md-10 col-sm-12" style="font-size:1.4rem">@ViewBag.Title</b>
+                <a href="@Url.Action("Index")" class="btn btn-secondary col-md-1 col-sm-12 "><i class="bi bi-arrow-left-circle"></i> Quay lại</a>
+            </div>
         </div>
         <div class="card-body">
             @using (Html.BeginForm())
@@ -21,40 +23,50 @@
                     @Html.HiddenFor(model => model.id)
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.UserID, "UserID", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownList("UserID", null, htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
+                        <div class="row">
+                            @Html.LabelFor(model => model.UserID, "UserID", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("UserID", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                     </div>
-
+                    <br />
                     <div class="form-group">
-                        <label class="control-label col-md-2" for="email_Payment">@Html.DisplayNameFor(model => model.email_Payment)</label>
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.email_Payment, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.email_Payment, "", new { @class = "text-danger" })
+                        <div class="row">
+                            <label class="control-label col-md-2" for="email_Payment">@Html.DisplayNameFor(model => model.email_Payment)</label>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.email_Payment, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.email_Payment, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                     </div>
-
+                    <br />
                     <div class="form-group">
-                        <label class="control-label col-md-2" for="name_Payment">@Html.DisplayNameFor(model => model.name_Payment)</label>
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.name_Payment, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.name_Payment, "", new { @class = "text-danger" })
+                        <div class="row">
+                            <label class="control-label col-md-2" for="name_Payment">@Html.DisplayNameFor(model => model.name_Payment)</label>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.name_Payment, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.name_Payment, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                     </div>
-
+                    <br />
                     <div class="form-group">
-                        <label class="control-label col-md-2" for="cost">@Html.DisplayNameFor(model => model.PayerID_Payment)</label>
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.PayerID_Payment, new { htmlAttributes = new { @class = "form-control" , @readonly = "readonly" } })
-                            @Html.ValidationMessageFor(model => model.PayerID_Payment, "", new { @class = "text-danger" })
+                        <div class="row">
+                            <label class="control-label col-md-2" for="cost">@Html.DisplayNameFor(model => model.PayerID_Payment)</label>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.PayerID_Payment, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.PayerID_Payment, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                     </div>
-
+                    <br />
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Save" class="btn btn-default" />
+                        <div class="row justify-content-center">
+                            <div class="col-md-1 col-sm-12 " style="">
+                                <input type="submit" value="Cập nhập" class="btn btn-success" />
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -157,3 +157,6 @@ C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\obj\Release
 C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\obj\Release\AirlinesReservationSystem.csproj.CopyComplete
 C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\obj\Release\AirlinesReservationSystem.dll
 C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\obj\Release\AirlinesReservationSystem.pdb
+C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\bin\evohtmltopdf.dll
+C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\bin\evohtmltopdf.xml
+C:\Users\kiet\Desktop\Project\FlightTicket\AirlinesReservationSystem\bin\evointernal.dat

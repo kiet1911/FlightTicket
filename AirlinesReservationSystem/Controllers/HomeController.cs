@@ -1133,14 +1133,18 @@ namespace AirlinesReservationSystem.Controllers
             string imageDataUri = $"data:image/png;base64,{base64String}";
 
             string baggageHtml = "";
-            if (baggage.signed_luggage > 0)
-            {
-                baggageHtml = $@"
+            try {
+                if (baggage.signed_luggage > 0)
+                {
+                    baggageHtml = $@"
         <div class='info-row'>
             <div class='info-item'><span>checked baggage:</span> {baggage.signed_luggage} kg</div>
             <div class='info-item'><span>Total baggage Price:</span> {MoneyHelper.showVND(baggage.signed_luggage * 10000)}</div>
         </div>";
-            }
+                }
+
+            } catch(Exception ex) { return HttpNotFound(ex.Message); }
+           
             string htmlToConvert = $@"
     <html>
     <head>
