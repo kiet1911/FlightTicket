@@ -8,20 +8,14 @@
 <section class="banner" id="top">
     <div class="container">
         <div class="row">
-            <div class="col-md-5">
-                <div class="left-side">
-                    <div class="
-                         
-                         ">
-
-                    </div>
+            <div class="col-md-6 ">
+                <div class="">
                     <div class="tabs-content">
                         <ul class="social-links">
-                            <li><a href="https://www.facebook.com/ThePinkKitten" target="_blank">Liên hệ qua <em>Facebook</em><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="https://www.youtube.com/results?search_query=%40catthepink5298" target="_blank">Kênh <em>Youtube</em> chúng tôi<i class="fa fa-youtube"></i></a></li>
-                            <li><a href="https://www.instagram.com/thepinkkitten" target="_blank">Theo dõi <em>instagram</em><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="" target="_blank">Liên hệ qua <em>Facebook</em><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="" target="_blank">Kênh <em>Youtube</em> chúng tôi<i class="fa fa-youtube"></i></a></li>
+                            <li><a href="" target="_blank">Theo dõi <em>instagram</em><i class="fa fa-instagram"></i></a></li>
                         </ul>
-
                     </div>
                     <div class="page-direction-button">
                         <a href="@Url.Action("About")"><i class="fa fa-phone"></i>Liên hệ với chúng tôi</a>
@@ -33,8 +27,7 @@
                     <div id="tab1" style="display: block;">
                         <div class="submit-form">
                             <h4 style="color: red">Chuyến bay:</h4>
-                            @using (Html.BeginForm("Index", "Home", FormMethod.Get,
-new { @id = "form-submit", @name = "form-submit" }))
+                            @using (Html.BeginForm("Index", "Home", FormMethod.Get, new { @id = "form-submit", @name = "form-submit" }))
                             {
                                 @Html.AntiForgeryToken()
                                 <div class="row">
@@ -89,13 +82,30 @@ new { @id = "form-submit", @name = "form-submit" }))
         {
             foreach (FlightSchedule model in flightSchedules)
             {
-                <div class="row" style="padding: 30px; background: #ffffff; margin-bottom: 20px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-                    <div class="col-sm-4 text-center">
-                        <img src="~/Asset/logo.png" alt="logo" width="50px" />
+                <div class=" row " style=" overflow:auto; padding: 30px; background: #ffffff; margin-bottom: 20px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                    <div class="col-sm-3 text-left">
+                        <img src="~/Asset/logo.png" alt="logo" width="50" />
                         @Html.DisplayFor(modelItem => model.Plane.name)
                     </div>
-                    <div class="col-sm-4">
-                        <table style="width:100%">
+
+
+                    <div class="col-sm-2" style="overflow:hidden">
+                        @Html.DisplayFor(modelItem => model.departures_at)
+                        <br><span class="label label-default">@Html.DisplayFor(modelItem => model.AirPort.name)</span>
+                    </div>
+                    <div class="col-sm-2" style="overflow:hidden">
+                        @Html.DisplayFor(modelItem => model.arrivals_at)
+                        <br><span class="label label-default">@Html.DisplayFor(modelItem => model.AirPort1.name)</span>
+                    </div>
+                    <div class="col-sm-2" style="overflow:hidden">
+                        @Html.DisplayFor(modelItem => model.bookedSeats) / @Html.DisplayFor(modelItem => model.totalSeats)
+                        <br /><span class="label label-default">SỐ LƯỢNG CHỖ ĐẶT</span>
+                    </div>
+
+
+
+
+                    @*<table class="table" style="width:100% ;">
                             <tr class="text-center">
                                 <td>
                                     <div>
@@ -122,19 +132,19 @@ new { @id = "form-submit", @name = "form-submit" }))
                                 <td>
                                     <div>
                                         @Html.DisplayFor(modelItem => model.bookedSeats) / @Html.DisplayFor(modelItem => model.totalSeats)
-                                        
+
                                         <span class="label label-default">SỐ LƯỢNG CHỖ ĐẶT</span>
                                     </div>
                                 </td>
                             </tr>
-                        </table>
-                    </div>
-                    <div class="col-sm-4 text-center">
+                        </table>*@
+
+                    <div class="col-sm-2 text-center">
                         <span style="font-size:20px;color:red;font-weight:bold">
                             @MoneyHelper.showVND(model.cost)
                             /khách
                         </span><br />
-                        <a  class="btn btn-warning" style="width: 30%; border-radius: 8px;" data-toggle="modal" data-target="#detailFlightScheduleModal" data-id="@Html.DisplayFor(modelItem => model.id)">Chọn</a>
+                        <a class="btn btn-warning" style="width: 30%; border-radius: 8px;" data-toggle="modal" data-target="#detailFlightScheduleModal" data-id="@Html.DisplayFor(modelItem => model.id)">Chọn</a>
                     </div>
                 </div>
             }
@@ -165,8 +175,8 @@ new { @id = "form-submit", @name = "form-submit" }))
             </div>
         </div>
     </div>
- </div>
-    <script>
+</div>
+<script>
     $('#detailFlightScheduleModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
         var modal = $(this)
@@ -188,4 +198,4 @@ new { @id = "form-submit", @name = "form-submit" }))
             }
         });
     })
-    </script>
+</script>

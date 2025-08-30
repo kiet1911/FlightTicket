@@ -1,14 +1,16 @@
 ﻿@model AirlinesReservationSystem.Models.Baggage
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Thêm ký gửi";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 <div class="container mt-2">
     <div class="card">
         <div class="card-header">
-            <b style="font-size:1.4rem">@ViewBag.Title</b>
-            <a href="@Url.Action("Index")" class="btn btn-secondary pull-right">< Quay lại</a>
+            <div class="row justify-content-around">
+                <b class="col-md-10 col-sm-12" style="font-size:1.4rem">@ViewBag.Title</b>
+                <a href="@Url.Action("Index")" class="btn btn-secondary col-md-1 col-sm-12 "><i class="bi bi-arrow-left-circle"></i> Quay lại</a>
+            </div>
         </div>
         <div class="card-body">
             @using (Html.BeginForm())
@@ -19,43 +21,54 @@
 
                     @*id*@
                     <div class="form-group">
-                        @Html.LabelFor(model => model.user_id, "user_id", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownList("user_id", null, htmlAttributes: new { @class = "form-control", @required = "required" })
-                            @Html.ValidationMessageFor(model => model.user_id, "", new { @class = "text-danger" })<br />
-                            <input id="browserInput" class="form-control" placeholder="Searh name or phone number..." value="">
+                        <div class="row">
+                            @Html.LabelFor(model => model.user_id, "user_id", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("user_id", null, htmlAttributes: new { @class = "form-control", @required = "required" })
+                                @Html.ValidationMessageFor(model => model.user_id, "", new { @class = "text-danger" })<br />
+                                <input id="browserInput" class="form-control" placeholder="Searh name or phone number..." value="">
+                            </div>
                         </div>
                     </div>
-
+                    <br />
                     @*carryon_bag*@
                     <div class="form-group">
-                        @Html.LabelFor(model => model.carryon_bag, "carryon_bag", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.TextBox("carryon_bag", null, htmlAttributes: new { @class = "form-control" ,@Value = "7" , @type = "number" , @Readonly = "readonly" , @required = "required" })
-                            @Html.ValidationMessageFor(model => model.carryon_bag, "", new { @class = "text-danger" })
+                        <div class="row">
+                            @Html.LabelFor(model => model.carryon_bag, "carryon_bag", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBox("carryon_bag", null, htmlAttributes: new { @class = "form-control", @Value = "7", @type = "number", @Readonly = "readonly", @required = "required" })
+                                @Html.ValidationMessageFor(model => model.carryon_bag, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                     </div>
-
-                    @*signed_luggage*@                    
+                    <br />
+                    @*signed_luggage*@
                     <div class="form-group">
-                        @Html.LabelFor(model => model.signed_luggage, htmlAttributes: new { @class = "control-label col-md-2", @required = "required" })
-                        <div class="col-md-10">
-                            @Html.TextBox("signed_luggage", null, htmlAttributes: new { @class = "form-control", @type = "number", @Value = "0", @min = "0", @max = "15", @required = "required" })
-                            @Html.ValidationMessageFor(model => model.signed_luggage, "", new { @class = "text-danger" })
+                        <div class="row">
+                            @Html.LabelFor(model => model.signed_luggage, htmlAttributes: new { @class = "control-label col-md-2", @required = "required" })
+                            <div class="col-md-10">
+                                @Html.TextBox("signed_luggage", null, htmlAttributes: new { @class = "form-control", @type = "number", @Value = "0", @min = "0", @max = "15", @required = "required" })
+                                @Html.ValidationMessageFor(model => model.signed_luggage, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                     </div>
-
+                    <br />
                     @*code*@
                     <div class="form-group">
-                        @Html.LabelFor(model => model.code, "code", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.TextBox("code", null, htmlAttributes: new { @class = "form-control", @type = "text", @required = "required" })
-                            @Html.ValidationMessageFor(model => model.code, "", new { @class = "text-danger" })
+                        <div class="row">
+                            @Html.LabelFor(model => model.code, "code", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBox("code", null, htmlAttributes: new { @class = "form-control", @type = "text", @required = "required" })
+                                @Html.ValidationMessageFor(model => model.code, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                     </div>
+                    <br />
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Create" class="btn btn-success" />
+                        <div class="row justify-content-center">
+                            <div class="col-md-1 col-sm-12 " style="">
+                                <input type="submit" value="Tạo" class="btn btn-success" />
+                            </div>
                         </div>
                     </div>
                 </div>
