@@ -37,7 +37,7 @@
 <ul>
   <li>Admin Control: Manage flights, bookings, and others </li>
   <li>User: Order tickets, pay tickets, login/register and others</li>
-  <li>Authentication: using Session to store User data for accessing permission </li>
+  <li>Authentication: using Session to store User data for accessing permission </li> 
   <li>Seat booking: Real-time booking with Ajax/jQuery, Schedule updates  with Hangfire(C# Nuget)</li>
   <li>Transaction History: View, paginate, and manage transactions </li>
   <li>Searching Flight schedule: Indexing(SQL server) to optimize search speed</li>
@@ -50,7 +50,7 @@
 <a href="https://drive.google.com/file/d/1zdXCdiVZdRSOM_yHML6RL4xDAPXVpGsj/view?usp=drive_link">Link to SQL File</a>
 </hr> 
 <h1>Account for Testing :</h1>
-<p>Account in admin site : userName: droang01@gmail.com, password: 123456</p>
+<p>Account in admin site : userName: droang01@gmail.com, password: 123456</p> <p>-> use this path to go to admin site http://flightticket.runasp.net/admin/security/login</p>
 <p>Account in WEB API site : userName: droang01@gmail.com, password: 123456 for admin</p> 
 <p>Account in WEB API site : userName: asdsaphat@gmail.com, password: 123456T@ for employee</p>
 <p>Account in Customer site : userName: droang09@gmail.com, password: Kuphe1980</p>
